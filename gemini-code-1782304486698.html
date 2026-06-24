@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTSLGyms | Under Construction</title>
+    <style>
+        /* --- DESIGN SYSTEM & VARIABLES --- */
+        :root {
+            --bg-black: #0d0d0d;
+            --bg-dark-gray: #1a1a1a;
+            --accent-red: #d62828;
+            --accent-yellow: #fcbf49;
+            --text-light: #f8f9fa;
+            --text-muted: #a0a0a0;
+            --font-sans: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* --- GLOBAL STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-family: var(--font-sans);
+            background-color: var(--bg-black);
+            color: var(--text-light);
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- UTILITIES --- */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 0;
+        }
+
+        .badge {
+            background-color: var(--accent-yellow);
+            color: var(--bg-black);
+            padding: 0.3rem 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-red {
+            background-color: var(--accent-red);
+            color: var(--text-light);
+        }
+
+        .btn-red:hover {
+            background-color: #b22222;
+            transform: translateY(-2px);
+        }
+
+        /* --- SCROLL ANIMATIONS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(13, 13, 13, 0.95);
+            border-bottom: 2px solid var(--accent-red);
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--accent-red);
+        }
+
+        .logo span:last-child {
+            color: var(--accent-yellow);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-yellow);
+        }
+
+        /* Mobile Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-light);
+            transition: 0.3s;
+        }
+
+        /* --- HERO SECTION --- */
+        #home {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)), 
+                        url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=1470') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 70px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- UNDER CONSTRUCTION WARNING --- */
+        .construction-banner {
+            background: linear-gradient(45deg, var(--accent-yellow) 25%, #000 25%, #000 50%, var(--accent-yellow) 50%, var(--accent-yellow) 75%, #000 75%, #000);
+            background-size: 40px 40px;
+            height: 15px;
+            width: 100%;
+        }
+
+        /* --- ABOUT SECTION --- */
+        #about {
+            background-color: var(--bg-dark-gray);
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-red);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-img img {
+            width: 100%;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent-red);
+            border-bottom: 5px solid var(--accent-yellow);
+        }
+
+        /* --- LOCATIONS MENU NAVIGATOR --- */
+        #locations {
+            background-color: var(--bg-black);
+            text-align: center;
+        }
+
+        .location-menu {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .loc-tab {
+            background-color: var(--bg-dark-gray);
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid #333;
+        }
+
+        .loc-tab.active, .loc-tab:hover {
+            background-color: var(--accent-yellow);
+            color: var(--bg-black);
+            border-color: var(--accent-yellow);
+        }
+
+        .location-display {
+            background-color: var(--bg-dark-gray);
+            border-radius: 12px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            text-align: left;
+            min-height: 350px;
+        }
+
+        .loc-info {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .loc-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--accent-red);
+        }
+
+        .loc-img {
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.5s ease-in-out;
+        }
+
+        /* --- REVIEWS SECTION --- */
+        #reviews {
+            background-color: var(--bg-dark-gray);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .review-card {
+            background-color: var(--bg-black);
+            padding: 2rem;
+            border-radius: 8px;
+            border-top: 4px solid var(--accent-yellow);
+            position: relative;
+        }
+
+        .stars {
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .review-card p {
+            color: var(--text-muted);
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .reviewer-name {
+            font-weight: bold;
+            color: var(--text-light);
+        }
+
+        .reviewer-role {
+            font-size: 0.8rem;
+            color: var(--accent-red);
+        }
+
+        /* --- FOOTER / CONTACT --- */
+        footer {
+            background-color: #050505;
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid #222;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo span { color: var(--accent-red); }
+        .footer-logo span:last-child { color: var(--accent-yellow); }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- MOBILE RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            /* Toggle class for hamburger transform animation */
+            .hamburger.toggle span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
+            .hamburger.toggle span:nth-child(2) { opacity: 0; }
+            .hamburger.toggle span:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
+
+            .nav-links {
+                position: fixed;
+                right: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: var(--bg-black);
+                width: 100%;
+                height: calc(100vh - 70px);
+                text-align: center;
+                padding-top: 3rem;
+                transition: 0.4s ease;
+                border-top: 1px solid #222;
+            }
+
+            .nav-links.open {
+                right: 0;
+            }
+
+            .hero-content h1 {
+                font-size: 2.3rem;
+            }
+
+            .about-grid, .location-display {
+                grid-template-columns: 1fr;
+            }
+
+            .location-display {
+                grid-template-rows: 200px 1fr;
+            }
+
+            .loc-info {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="construction-banner"></div>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo"><a href="#home">TTSL<span>Gyms</span></a></div>
+            <ul class="nav-links">
+                <li><a href="#home" onclick="toggleMenu()">Home</a></li>
+                <li><a href="#about" onclick="toggleMenu()">About</a></li>
+                <li><a href="#locations" onclick="toggleMenu()">Locations</a></li>
+                <li><a href="#reviews" onclick="toggleMenu()">Pre-Reviews</a></li>
+            </ul>
+            <button class="hamburger" aria-label="Toggle Menu" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <section id="home">
+        <div class="hero-content container">
+            <span class="badge">🔨 Launching Late 2026</span>
+            <h1>The Next Era of <br><span style="color:var(--accent-red)">Strength</span> & <span style="color:var(--accent-yellow)">Power</span></h1>
+            <p>TTSLGyms is currently preparing premium-tier equipment, custom training spaces, and unmatched environments. We are building the ultimate fitness hubs.</p>
+            <a href="#about" class="btn btn-red">Explore the Blueprint</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container about-grid reveal">
+            <div class="about-text">
+                <span class="badge">Our Mission</span>
+                <h2 class="section-title" style="text-align: left; margin-bottom: 1.5rem;">Under Construction</h2>
+                <p>We are meticulously laying down heavy-duty rubber flooring, installing state-of-the-art power racks, and configuring a high-energy aesthetic built around pure performance.</p>
+                <p>TTSLGyms is not just another neighborhood franchise. We focus heavily on functional training, powerlifting infrastructure, and elite cardiovascular layouts designed to crush personal milestones.</p>
+            </div>
+            <div class="about-img">
+                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=800" alt="Gym under setup">
+            </div>
+        </div>
+    </section>
+
+    <section id="locations">
+        <div class="container reveal">
+            <span class="badge">Quick Navigator</span>
+            <h2 class="section-title">Planned Branches</h2>
+            
+            <div class="location-menu">
+                <div class="loc-tab active" onclick="switchLocation('downtown', this)">Downtown Core</div>
+                <div class="loc-tab" onclick="switchLocation('metro', this)">Metro East</div>
+                <div class="loc-tab" onclick="switchLocation('west', this)">West Plaza</div>
+            </div>
+
+            <div class="location-display">
+                <div class="loc-info" id="location-text-box">
+                    <h3 id="loc-title">TTSL Downtown Core</h3>
+                    <p id="loc-desc" style="color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem;">
+                        Our flagship multi-level facility featuring over 20,000 sq. ft. of pure steel. Includes an indoor sprint track, olympic weightlifting platforms, and an exclusive recovery zone.
+                    </p>
+                    <p style="color: var(--accent-yellow); font-weight: bold;">Status: Structural Work In Progress</p>
+                </div>
+                <div class="loc-img" id="location-image" style="background-image: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=800');"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reviews">
+        <div class="container reveal">
+            <span class="badge">Community Buzz</span>
+            <h2 class="section-title">Early Foundations & Hype</h2>
+            
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Saw the equipment delivery list for the Downtown location. Choosing competition-grade bars shows they actually care about real training formats. Can't wait!"</p>
+                    <div class="reviewer-name">Marcus V.</div>
+                    <div class="reviewer-role">Local Powerlifter</div>
+                </div>
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"The dark color profile, heavy red lighting concept renderings look insane. It's exactly the intense atmosphere our city's fitness community is missing."</p>
+                    <div class="reviewer-name">Sarah K.</div>
+                    <div class="reviewer-role">Fitness Influencer / Athlete</div>
+                </div>
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Spoke with the project management team about corporate memberships for Metro East. Their customer communication during this setup stage is unmatched."</p>
+                    <div class="reviewer-name">David L.</div>
+                    <div class="reviewer-role">Local Business Owner</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container" style="padding: 0;">
+            <div class="footer-logo">TTSL<span>Gyms</span></div>
+            <p>&copy; 2026 TTSLGyms Ltd. All Rights Reserved. Development Draft Layout.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Mobile Menu Toggle Logic
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            
+            // Check if device is currently showing mobile layout
+            if(window.innerWidth <= 768) {
+                navLinks.classList.toggle('open');
+                hamburger.classList.toggle('toggle');
+            }
+        }
+
+        // 2. Dynamic Location Quick Navigation Menu Data
+        const locationData = {
+            downtown: {
+                title: "TTSL Downtown Core",
+                desc: "Our flagship multi-level facility featuring over 20,000 sq. ft. of pure steel. Includes an indoor sprint track, olympic weightlifting platforms, and an exclusive recovery zone.",
+                img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=800"
+            },
+            metro: {
+                title: "TTSL Metro East",
+                desc: "Optimized for hybrid conditioning and athletic sports preparation. Features high ceilings, specialized calisthenics rigs, and an expansive turf area for sled pushes.",
+                img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80&w=800"
+            },
+            west: {
+                title: "TTSL West Plaza",
+                desc: "A boutique-style hardcore workspace setup. Crafted perfectly for serious local lifting squads looking for premium strength gear without the crowded corporate hassles.",
+                img: "https://images.unsplash.com/photo-1593079831268-3381b0db4a77?auto=format&fit=crop&q=80&w=800"
+            }
+        };
+
+        function switchLocation(key, element) {
+            // Update Tab Highlight
+            document.querySelectorAll('.loc-tab').forEach(tab => tab.classList.remove('active'));
+            element.classList.add('active');
+
+            // Apply Fade effect out smoothly, swap content, then fade in
+            const titleEl = document.getElementById('loc-title');
+            const descEl = document.getElementById('loc-desc');
+            const imgEl = document.getElementById('location-image');
+
+            titleEl.innerText = locationData[key].title;
+            descEl.innerText = locationData[key].desc;
+            imgEl.style.backgroundImage = `url('${locationData[key].img}')`;
+        }
+
+        // 3. Intersection Observer API for Scroll Animations
+        const observerOptions = {
+            root: null,
+            threshold: 0.1, // trigger when 10% of element is visible
+            rootMargin: "0px"
+        };
+
+        const scrollObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Stop observing once animated into view
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Track all sections with the class 'reveal'
+        document.querySelectorAll('.reveal').forEach(el => {
+            scrollObserver.observe(el);
+        });
+    </script>
+</body>
+</html>
